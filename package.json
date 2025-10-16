@@ -1,15 +1,24 @@
 {
     "name": "esewa-pay",
-    "version": "1.0.1",
+    "version": "1.0.4",
     "description": "A TypeScript SDK for integrating eSewa payments (supports both ESM & CJS)",
-    "main": "./dist/index.cjs",
-    "module": "./dist/index.js",
-    "types": "./dist/index.d.ts",
+    "main": "./dist/cjs/index.js",
+    "module": "./dist/esm/index.js",
+    "types": "./dist/types/index.d.ts",
+    "files": [
+        "dist",
+        "LICENSE",
+        "README.md"
+    ],
     "scripts": {
-        "build": "tsup src/index.ts --format esm,cjs --dts",
-        "dev": "tsup src/index.ts --watch --format esm,cjs --dts",
+        "build:esm": "tsup src/index.ts --format esm --dts --out-dir dist/esm",
+        "build:cjs": "tsup src/index.ts --format cjs --dts --out-dir dist/cjs",
+        "build": "rimraf dist && npm run build:cjs && npm run build:esm",
+        "dev:cjs": "tsup src/index.ts --watch --format cjs --dts --out-dir dist/cjs",
+        "dev:esm": "tsup src/index.ts --watch --format esm --dts --out-dir dist/esm",
+        "dev": "npm run dev:cjs & npm run dev:esm",
         "prepare": "npm run build",
-        "clean": "rm -rf dist"
+        "clean": "rimraf dist"
     },
     "keywords": [
         "esewa",
@@ -25,9 +34,6 @@
         "type": "git",
         "url": "https://github.com/shishir-subedii/esewa-pay.git"
     },
-    "bugs": {
-        "url": "https://github.com/shishir-subedii/esewa-pay/issues"
-    },
     "homepage": "https://github.com/shishir-subedii/esewa-pay#readme",
     "dependencies": {
         "axios": "^1.7.2"
@@ -35,12 +41,16 @@
     "devDependencies": {
         "@types/node": "^24.7.2",
         "tsup": "^8.5.0",
-        "typescript": "^5.9.3"
+        "typescript": "^5.9.3",
+        "rimraf": "^6.0.1"
     },
     "exports": {
         ".": {
-            "import": "./dist/index.js",
-            "require": "./dist/index.cjs"
+            "import": "./dist/esm/index.mjs",
+            "require": "./dist/cjs/index.js"
         }
+    },
+    "engines": {
+        "node": ">=16"
     }
 }
