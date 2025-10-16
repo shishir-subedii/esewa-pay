@@ -56,25 +56,27 @@ const { EsewaClient } = require("esewa-pay");
 import { EsewaClient } from "esewa-pay";
 
 const esewa = new EsewaClient({
-  secretKey: "8gBm/:&EnhH.1/q(", // Test key (provided below)
+  secretKey: "8gBm/:&EnhH.1/q", // Test key (sandbox)
   productCode: "EPAYTEST",
-  successUrl: "https://yourserver.com/esewa/success",
-  failureUrl: "https://yourserver.com/esewa/failure",
-  env: "development", // or 'production'
+  successUrl: "https://yourserver.com/esewa/success", //give your own end point and handle the processing here. Make a webhook in this url.
+  failureUrl: "https://yourserver.com/esewa/failure", //give your own end point and handle the processing here.
+  env: "development", // or "production"
 });
 
-// Example: initiate a payment
 (async () => {
   const txn_uuid = "txn-" + Date.now();
 
-  const payment = await esewa.initiatePayment({
-    amount: "100",
-    total_amount: "100",
-    transaction_uuid: txn_uuid,
+  //you can save the transaction id into database so that it will help in referencing the data later.
+
+  const paymentUrl = await esewa.initiatePayment({
+    amount: "100", //string
+    total_amount: "100", //string
+    transaction_uuid: txn_uuid, //string
   });
 
-  console.log("Redirect user to this URL:", payment.url);
+  console.log("Redirect user to this URL:", paymentUrl);
 })();
+
 ```
 
 ## Example: Verify a Payment
@@ -97,37 +99,53 @@ Example using Express.js:
 
 ```ts
 import express from "express";
+import bodyParser from "body-parser";
 import { EsewaClient } from "esewa-pay";
 
 const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 const esewa = new EsewaClient({
   secretKey: "8gBm/:&EnhH.1/q(",
   productCode: "EPAYTEST",
   successUrl: "https://yourserver.com/esewa/success",
   failureUrl: "https://yourserver.com/esewa/failure",
-  env: "development",
+  env: "development", // or "production"
 });
 
-app.get("/esewa/success", async (req, res) => {
+// Webhook for successful payments
+// post for production(data getting in body), get for local(data getting in query)
+app.all("/esewa/success", async (req, res) => {
   try {
-    const { transaction_uuid, product_code, total_amount } = req.query;
+    const data =
+      req.method === "POST" ? req.body.data : req.query.data;
 
-    const result = await esewa.verifyPayment({
-      transaction_uuid: String(transaction_uuid),
-      product_code: String(product_code),
-      amount: String(total_amount),
-    });
+    if (!data) {
+      return res.status(400).send("Missing payment data");
+    }
+
+    // Decode and verify payment
+    const result = await esewa.verifyPayment(String(data));
 
     console.log("Payment Verified:", result);
     res.send("Payment verified successfully!");
   } catch (err) {
-    console.error(err);
+    console.error("Verification failed:", err);
     res.status(500).send("Verification failed");
   }
 });
 
-app.listen(3000, () => console.log("Server running on port 3000"));
+// Webhook for failed payments
+app.all("/esewa/failure", (req, res) => {
+  console.log("Payment failed:", req.body || req.query);
+  res.send("Payment failed");
+});
+
+app.listen(3000, () =>
+  console.log("🚀 Server running at http://localhost:3000")
+);
+
 ```
 
 ---
