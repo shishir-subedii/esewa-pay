@@ -107,7 +107,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const esewa = new EsewaClient({
-  secretKey: "8gBm/:&EnhH.1/q(",
+  secretKey: "8gBm/:&EnhH.1/q",
   productCode: "EPAYTEST",
   successUrl: "https://yourserver.com/esewa/success",
   failureUrl: "https://yourserver.com/esewa/failure",
