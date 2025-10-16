@@ -196,3 +196,23 @@ MIT License
 🧑‍💻 Author: Shishir Subedi
 
 ---
+
+## CONTRIBUTING
+🧠 Version Bump Logic (Using phips28/gh-action-bump-version)  
+
+That GitHub Action checks the commit messages merged into main.  
+Depending on what they contain, it bumps the version as follows:  
+
+Commit Message	Resulting Version Bump  
+fix:	🔹 patch → 1.0.0 → 1.0.1  
+feat:	🔸 minor → 1.0.0 → 1.1.0  
+BREAKING CHANGE: or !	🔺 major → 1.0.0 → 2.0.0  
+others (chore:, docs:, test:)	no bump  
+
+✅ Examples in Your Project  
+fix: resolve timeout issue in esewa client(npm version becomes 1.0.1)  
+feat: add status verification API(npm version becomes 1.1.0)  
+feat!: change constructor to accept options object(npm version becomes 2.0.0)  
+docs: update README for new config options(version stays the same)  
+
+---

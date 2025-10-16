@@ -10,6 +10,9 @@
         "LICENSE",
         "README.md"
     ],
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {
         "build:esm": "tsup src/index.ts --format esm --dts --out-dir dist/esm",
         "build:cjs": "tsup src/index.ts --format cjs --dts --out-dir dist/cjs",
