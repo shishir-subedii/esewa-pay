@@ -178,7 +178,3 @@ MIT License
 🧑‍💻 Author: Shishir Subedi
 
 ---
-
-This library is conceptually inspired by node-cache, but with a lighter footprint, singleton access, and full TypeScript typings.
-
----
