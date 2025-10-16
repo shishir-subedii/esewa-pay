@@ -156,12 +156,12 @@ app.listen(3000, () =>
 Use the following test credentials to simulate payments.
 
 Field	Value
-eSewa ID	9806800001 / 9806800002 / 9806800003 / 9806800004 / 9806800005
-Password	Nepal@123
-MPIN	1122
-Merchant ID / Service Code	EPAYTEST
-Token	123456
-Secret Key (for ePay v2)	8gBm/:&EnhH.1/q(
+eSewa ID:	9806800001 / 9806800002 / 9806800003 / 9806800004 / 9806800005  
+Password:	Nepal@123  
+MPIN::	1122(for application only)  
+Merchant ID / Service Code:	EPAYTEST  
+Token:	123456  
+Secret Key (for ePay v2):	8gBm/:&EnhH.1/q  
 
 👉 Use env: "development" in your client initialization.
 
