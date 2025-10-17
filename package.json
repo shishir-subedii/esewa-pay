@@ -26,9 +26,9 @@
     "keywords": [
         "esewa",
         "payment",
-        "sdk",
+        "esewa-pay",
         "typescript",
-        "hmac",
+        "epay v2",
         "epay"
     ],
     "author": "Shishir Subedi <shishir16subedi@gmail.com>",
