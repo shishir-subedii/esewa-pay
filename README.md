@@ -148,6 +148,18 @@ app.listen(3000, () =>
 
 ```
 
+## Get transaction status
+After the user pays, eSewa redirects to your success webhook URL with query parameters.
+You can verify the transaction on your backend:
+
+```ts
+const response = await esewa.getTransactionStatus(
+  'txn-123456789', '100'
+);
+
+console.log(response);
+```
+
 ---
 
 ## Environments
